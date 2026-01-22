@@ -40,14 +40,24 @@ radon_abstract_token<- data_radon_filter %>%
                           token="ngrams",
                           n=1) 
 
-radon_abstract_token_trier <- radon_abstract_token %>%
+radon_abstract_token_trie <- radon_abstract_token %>%
   anti_join(tidytext::stop_words,by=c("mot_abstract"="word"))
 
 radon_abstract_token_english<- mixr::get_lexicon("en")
 
-freq_lemmes <- radon_abstract_token_trier %>%
+freq_lemmes <- radon_abstract_token_trie %>%
   group_by(mot_abstract, periode) %>% 
   summarise(freq=n()) %>% 
   arrange(desc(freq)) %>% 
   na.omit()
 head(freq_lemmes)
+
+#correlation en fonction des année de publication
+mots_corelation <- radon_abstract_token_trie %>% 
+  widyr::pairwise_count(mot_abstract,feature=publication_year,sort=TRUE)
+
+
+tib_spec <- mixr::tidy_specificities(radon_abstract_token_trie,
+                                     mot_abstract,
+                                     periode)
+head(tib_spec)

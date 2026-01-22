@@ -16,6 +16,16 @@ data <- read.csv("discours_scientifique_plus.csv", sep = ";", header = TRUE)
 data_work <- data %>%
   select(display_name, abstract, top_concepts,publication_year)
 
+# --- Création des périodes temporelles ---
+data_work <- data_work %>%
+  mutate(periode = case_when(
+    publication_year >= 1950 & publication_year <= 1990 ~ "1950-1990",
+    publication_year >= 1991 & publication_year <= 2005 ~ "1991-2005",
+    publication_year >= 2006 & publication_year <= 2015 ~ "2006-2015",
+    publication_year >= 2016 & publication_year <= 2026 ~ "2016-2026",
+    TRUE ~ "Autre"
+  ))
+
 
 #dans data_work des que l'on voit le mot radon ont garde la ligne sinon ont supprime
 
@@ -36,13 +46,8 @@ radon_abstract_token_trier <- radon_abstract_token %>%
 radon_abstract_token_english<- mixr::get_lexicon("en")
 
 freq_lemmes <- radon_abstract_token_trier %>%
-  group_by(mot_abstract, publication_year) %>% 
+  group_by(mot_abstract, periode) %>% 
   summarise(freq=n()) %>% 
   arrange(desc(freq)) %>% 
   na.omit()
 head(freq_lemmes)
-
-
-
-
-

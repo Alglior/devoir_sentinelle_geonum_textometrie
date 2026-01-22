@@ -44,10 +44,10 @@ radon_abstract_token_trie <- radon_abstract_token %>%
 
 english_lexicon <- get_lexicon(language = "en")
 
-work_type <- merge(radon_abstract_token_trie, english_lexicon,by.x = "mot_abstract",
+merge_radon_lexicon <- merge(radon_abstract_token_trie, english_lexicon,by.x = "mot_abstract",
                    by.y = "word")
 
-radon_abstract_token_trie <- subset(work_type, select = c(
+radon_abstract_token_lemma <- subset(merge_radon_lexicon, select = c(
   display_name,
   top_concepts,
   publication_year,
@@ -55,7 +55,7 @@ radon_abstract_token_trie <- subset(work_type, select = c(
   lemma
 ))
 
-freq_lemmes <- radon_abstract_token_trie %>%
+freq_lemmes <- radon_abstract_token_lemma %>%
   group_by(lemma,periode) %>% 
   summarise(freq=n()) %>% 
   arrange(desc(freq)) %>% 
@@ -63,10 +63,10 @@ freq_lemmes <- radon_abstract_token_trie %>%
 head(freq_lemmes)
 
 
-#correlation en fonction des annÃ©e de publication
-mots_corelation <- radon_abstract_token_trie %>% 
-  widyr::pairwise_count(lemma,feature=publication_year,sort=TRUE)
+#correlation en fonction des année de publication
+#mots_corelation <- radon_abstract_token_lemma %>% 
+ # widyr::pairwise_count(lemma,feature=publication_year,sort=TRUE)
 
-radon_specificities <- mixr::tidy_specificities(radon_abstract_token_trie,
+radon_specificities <- mixr::tidy_specificities(radon_abstract_token_lemma,
                                                 lemma,
                                                 periode)

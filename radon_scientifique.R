@@ -85,7 +85,7 @@ radon_specificities %>%
   facet_wrap(~ periode, scales = "free") +
   coord_flip() +
   scale_x_reordered() +
-  labs(x = "Lemme",
+  labs(x = "Mots",
        y = "Spécificité",
        title = "Mots les plus spécifiques aux périodes dans les discours scientifiques sur le radon")
 
@@ -100,6 +100,10 @@ radon_specificities %>%
   facet_wrap(~ periode, scales = "free") +
   coord_flip() +
   scale_x_reordered() +
-  labs(x = "Lemme",
+  labs(x = "Mots",
        y = "Spécificité",
        title = "Mots les moins spécifiques aux périodes dans les discours scientifiques sur le radon")
+
+
+
+

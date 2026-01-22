@@ -73,6 +73,8 @@ radon_specificities <- mixr::tidy_specificities(radon_abstract_token_lemma,
 
 #### ----Visualisation des résultats ---- ####
 library(ggplot2)
+
+#Visualisation des mots les plus spécifiques à chaque période
 radon_specificities %>%
   group_by(periode) %>%
   slice_max(n = 10, spec) %>%
@@ -85,5 +87,19 @@ radon_specificities %>%
   scale_x_reordered() +
   labs(x = "Lemme",
        y = "Spécificité",
-       title = "Lemmes les plus spécifiques aux périodes dans les discours scientifiques sur le radon")
+       title = "Mots les plus spécifiques aux périodes dans les discours scientifiques sur le radon")
 
+#Visualisation des mots négatif à chaque période
+radon_specificities %>%
+  group_by(periode) %>%
+  slice_min(n = 10, spec) %>%
+  ungroup() %>%
+  mutate(lemma = reorder_within(lemma, spec, periode)) %>%
+  ggplot(aes(lemma, spec, fill = periode)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ periode, scales = "free") +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(x = "Lemme",
+       y = "Spécificité",
+       title = "Mots les moins spécifiques aux périodes dans les discours scientifiques sur le radon")

@@ -46,7 +46,59 @@ L'analyse repose sur le calcul de la **spécificité**, qui permet de distinguer
 
 ## Méthodologie
 
-Le traitement des données a suivi les étapes suivantes : 1. **Filtrage** : Extraction des publications contenant le mot "radon" dans le titre ou le résumé. 2. **Tokenisation & Nettoyage** : Décomposition des textes en mots simples et suppression des mots vides (*stop words*). 3. **Lemmatisation** : Regroupement des mots sous leur forme racine (ex: "miners" devient "miner"). 4. **Calcul de Spécificité** : Utilisation du package `mixr` pour déterminer l'importance relative de chaque lemme par période.
+## **I. Préparation du Jeu de Données**
+
+**Objectif :** Transformer un fichier brut en une base de travail propre, normalisée et centrée uniquement sur le radon.
+
+### **1. Chargement des outils**
+
+On active les "boîtes à outils" (les bibliothèques) qui permettent de manipuler les données, d'analyser le texte et de calculer les statistiques.
+
+### **2. Importation et Sélection**
+
+On charge le fichier et on ne garde que les colonnes essentielles pour ne pas alourdir les calculs : le titre, le résumé, les concepts clés et l'année.
+
+### **3. Segmentation temporelle (Dates précises)**
+
+On découpe le temps en quatre périodes historiques. C'est ici que l'on définit la précision de l'analyse pour comparer les époques :
+
+-   **1950 à 1990 :** Les débuts de la recherche.
+
+-   **1991 à 2005 :** L'éveil de la conscience sanitaire.
+
+-   **2006 à 2015 :** L'intensification des études sur l'environnement.
+
+-   **2016 à 2026 :** Les enjeux actuels et futurs.
+
+### **4. Filtrage (Le Focus Radon)**
+
+On élimine tout ce qui ne nous intéresse pas. Le script ne garde que les articles qui contiennent le mot **"radon"** dans leur résumé ou leurs mots-clés.
+
+### **5. Découpage et Nettoyage**
+
+On découpe les textes en mots isolés. On retire ensuite les mots inutiles (comme "le", "la", "de", "un") qui polluent l'analyse sans apporter de sens scientifique.
+
+### **6. Lemmatisation (Normalisation)**
+
+**C'est l'étape la plus importante :** on regroupe les mots sous leur racine commune (le lemme).
+
+-   Exemple : "mesuré", "mesure" et "mesurage" sont tous regroupés sous la racine unique **"mesure"**. Cela permet d'avoir une statistique exacte sur l'idée de mesure, peu importe comment elle est écrite.
+
+### **7. Calcul des Spécificités**
+
+Le script calcule mathématiquement quels mots sont les plus "typiques" d'une période par rapport aux autres.
+
+## **II. Visualisation des Résultats**
+
+**Objectif :** Rendre les chiffres parlants grâce à des graphiques clairs.
+
+### **1. Graphique des mots "clés" (Positifs)**
+
+Ce bloc affiche les 10 mots les plus caractéristiques de chaque époque. Plus la barre est longue, plus le mot est propre à cette période.
+
+### **2. Graphique des mots "absents" (Négatifs)**
+
+À l'inverse, ce graphique montre les mots qui sont anormalement absents ou en déclin à certaines dates.
 
 ------------------------------------------------------------------------
 

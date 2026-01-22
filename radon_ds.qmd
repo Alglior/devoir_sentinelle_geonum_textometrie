@@ -6,43 +6,14 @@ format:
     theme: cosmo
     code-fold: true
 ---
-Synthèse Méthodologique : Analyse Textuelle du Risque Radon
-
-L'objectif de ce travail est de transformer une base de données brute de publications scientifiques en indicateurs compréhensibles pour identifier l'évolution des enjeux de santé publique liés au radon.
-
-I. Préparation et Structuration des Données
-
-La première étape a consisté à isoler les informations pertinentes et à définir un cadre temporel pour l'analyse.
-
-Sélection de variables : Seules les colonnes d'intérêt (titre, résumé, mots-clés, année) ont été conservées pour simplifier le traitement.
-
-Segmentation temporelle : Les données ont été regroupées en quatre périodes stratégiques : 1950-1990 (longue période de documentation rare), 1991-2005, 2006-2015, et 2016-2026.
-
-Filtrage thématique : Le jeu de données a été restreint aux seuls documents mentionnant explicitement le "radon", excluant les autres sujets environnementaux (eau, air).
-
-II. Traitement du Langage Naturel (NLP)
-
-Pour permettre une analyse statistique, le texte brut des résumés a été déconstruit selon un protocole rigoureux.
-
-Tokenisation : Utilisation de la fonction unnest_tokens pour isoler chaque mot individuellement sur une ligne distincte.
-
-Nettoyage (Stopwords) : Suppression des mots de liaison sans valeur sémantique (ex: "the", "is", "a") via une jointure inverse avec le dictionnaire TidyText.
-
-Standardisation (Lématisation) : Recours à un lexique anglais pour ramener les mots à leur racine (suppression des pluriels) afin d'harmoniser les comptes de fréquence.
-
-III. Analyses Statistiques et Indicateurs Clés
-
-L'équipe a généré deux types de résultats pour caractériser le discours scientifique:
-
-Fréquence brute : Calcul du nombre d'occurrences de chaque mot par période (ex: 740 mentions du mot "radon" sur la période actuelle)
-
-Spécificité : Calcul statistique visant à identifier les termes "typiques" d'une époque donnée. Cela permet de détecter les changements de priorités dans la recherche au fil des décennies.
-
 ## Introduction
 
-Ce rapport analyse l'évolution des thématiques de recherche liées au **radon** sur une période de 75 ans. En utilisant des techniques de fouille de textes (*text mining*) sur les résumés de publications scientifiques, nous identifions les termes dont la fréquence est statistiquement "spécifique" à certaines époques.
+Le radon est un gaz radioactif naturellement présent dans le sol, les roches et certains bâtiments. Il constitue un risque majeur pour la santé, notamment pour le cancer du poumon. La recherche sur le radon a évolué au fil des décennies, passant de l’étude de son comportement physique à l’évaluation de ses impacts sanitaires et environnementaux.
 
-L'analyse repose sur le calcul de la **spécificité**, qui permet de distinguer les mots sur-représentés (positifs) ou sous-représentés (négatifs) par rapport à la moyenne de l'ensemble du corpus.
+Ce travail vise à transformer une base de données brute de publications scientifiques en indicateurs clairs, permettant d’identifier l’évolution des thématiques et enjeux de santé liés au radon. L’analyse repose sur le calcul de la spécificité, qui permet de distinguer les mots sur-représentés ou sous-représentés par rapport à la moyenne de l'ensemble du corpus.
+
+La question centrale de cette étude est : comment la recherche scientifique sur le radon a-t-elle évolué au cours des 75 dernières années pour répondre aux enjeux de santé publique ?
+
 
 ## Méthodologie
 
@@ -173,6 +144,7 @@ radon_specificities <- mixr::tidy_specificities(radon_abstract_token_lemma,
                                                 lemma,
                                                 periode)
 ```
+
 
 ## **II. Visualisation des Résultats**
 

@@ -57,7 +57,7 @@ mots_corelation <- radon_abstract_token_trie %>%
   widyr::pairwise_count(mot_abstract,feature=publication_year,sort=TRUE)
 
 
-tib_spec <- mixr::tidy_specificities(radon_abstract_token_trie,
+radon_specificities <- mixr::tidy_specificities(radon_abstract_token_trie,
                                      mot_abstract,
                                      periode)
-head(tib_spec)
+head(radon_specificities)

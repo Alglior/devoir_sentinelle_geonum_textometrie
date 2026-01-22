@@ -87,7 +87,7 @@ radon_specificities %>%
   scale_x_reordered() +
   labs(x = "Mots",
        y = "Spécificité",
-       title = "Mots les plus spécifiques aux périodes dans les discours scientifiques sur le radon")
+       title = "Mots les plus représentés aux périodes dans les discours scientifiques sur le radon")
 
 #Visualisation des mots négatif à chaque période
 radon_specificities %>%
@@ -102,7 +102,7 @@ radon_specificities %>%
   scale_x_reordered() +
   labs(x = "Mots",
        y = "Spécificité",
-       title = "Mots les moins spécifiques aux périodes dans les discours scientifiques sur le radon")
+       title = "Mots les moins représentés aux périodes dans les discours scientifiques sur le radon")
 
 
 

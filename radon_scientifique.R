@@ -3,6 +3,7 @@ library(tidytext)
 library(proustr)
 library(remotes)
 library(widyr)
+library(mixr)
 
 remotes::install_github("lvaudor/mixr")
 
@@ -13,7 +14,7 @@ data <- read.csv("discours_scientifique_plus.csv", sep = ";", header = TRUE)
 #garder seuelement display_name ; abstract ; top_concepts
 
 data_work <- data %>%
-  select(display_name, abstract, top_concepts)
+  select(display_name, abstract, top_concepts,publication_year)
 
 
 #dans data_work des que l'on voit le mot radon ont garde la ligne sinon ont supprime
@@ -32,11 +33,16 @@ radon_abstract_token<- data_radon_filter %>%
 radon_abstract_token_trier <- radon_abstract_token %>%
   anti_join(tidytext::stop_words,by=c("mot_abstract"="word"))
 
-mixr::get_lexicon("en")
+radon_abstract_token_english<- mixr::get_lexicon("en")
+
+freq_lemmes <- radon_abstract_token_trier %>%
+  group_by(mot_abstract, publication_year) %>% 
+  summarise(freq=n()) %>% 
+  arrange(desc(freq)) %>% 
+  na.omit()
+head(freq_lemmes)
 
 
-
-radon_stem <-proustr::pr_stem_words(radon_abstract_token_trier,radon_abstract)
 
 
 

@@ -8,6 +8,37 @@ format:
     theme: cosmo
     code-fold: true
 ---
+Synthèse Méthodologique : Analyse Textuelle du Risque Radon
+
+L'objectif de ce travail est de transformer une base de données brute de publications scientifiques en indicateurs compréhensibles pour identifier l'évolution des enjeux de santé publique liés au radon.
+
+I. Préparation et Structuration des Données
+
+La première étape a consisté à isoler les informations pertinentes et à définir un cadre temporel pour l'analyse.
+
+Sélection de variables : Seules les colonnes d'intérêt (titre, résumé, mots-clés, année) ont été conservées pour simplifier le traitement.
+
+Segmentation temporelle : Les données ont été regroupées en quatre périodes stratégiques : 1950-1990 (longue période de documentation rare), 1991-2005, 2006-2015, et 2016-2026.
+
+Filtrage thématique : Le jeu de données a été restreint aux seuls documents mentionnant explicitement le "radon", excluant les autres sujets environnementaux (eau, air).
+
+II. Traitement du Langage Naturel (NLP)
+
+Pour permettre une analyse statistique, le texte brut des résumés a été déconstruit selon un protocole rigoureux.
+
+Tokenisation : Utilisation de la fonction unnest_tokens pour isoler chaque mot individuellement sur une ligne distincte.
+
+Nettoyage (Stopwords) : Suppression des mots de liaison sans valeur sémantique (ex: "the", "is", "a") via une jointure inverse avec le dictionnaire TidyText.
+
+Standardisation (Lématisation) : Recours à un lexique anglais pour ramener les mots à leur racine (suppression des pluriels) afin d'harmoniser les comptes de fréquence.
+
+III. Analyses Statistiques et Indicateurs Clés
+
+L'équipe a généré deux types de résultats pour caractériser le discours scientifique:
+
+Fréquence brute : Calcul du nombre d'occurrences de chaque mot par période (ex: 740 mentions du mot "radon" sur la période actuelle)
+
+Spécificité : Calcul statistique visant à identifier les termes "typiques" d'une époque donnée. Cela permet de détecter les changements de priorités dans la recherche au fil des décennies.
 
 ## Introduction
 

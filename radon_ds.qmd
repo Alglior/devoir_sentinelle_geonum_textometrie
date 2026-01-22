@@ -1,0 +1,60 @@
+---
+title: "Analyse Lexicométrique du Discours Scientifique sur le Radon (1950-2026)"
+author: "Analyse Automatisée"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    theme: cosmo
+    code-fold: true
+---
+
+## Introduction
+
+Ce rapport analyse l'évolution des thématiques de recherche liées au **radon** sur une période de 75 ans. En utilisant des techniques de fouille de textes (*text mining*) sur les résumés de publications scientifiques, nous identifions les termes dont la fréquence est statistiquement "spécifique" à certaines époques.
+
+L'analyse repose sur le calcul de la **spécificité**, qui permet de distinguer les mots sur-représentés (positifs) ou sous-représentés (négatifs) par rapport à la moyenne de l'ensemble du corpus.
+
+## Méthodologie
+
+Le traitement des données a suivi les étapes suivantes : 1. **Filtrage** : Extraction des publications contenant le mot "radon" dans le titre ou le résumé. 2. **Tokenisation & Nettoyage** : Décomposition des textes en mots simples et suppression des mots vides (*stop words*). 3. **Lemmatisation** : Regroupement des mots sous leur forme racine (ex: "miners" devient "miner"). 4. **Calcul de Spécificité** : Utilisation du package `mixr` pour déterminer l'importance relative de chaque lemme par période.
+
+------------------------------------------------------------------------
+
+## 1. Évolution des Thématiques (Mots les plus spécifiques)
+
+L'analyse des termes les plus représentés révèle un glissement net des préoccupations physiques et industrielles vers des enjeux de santé publique et de diagnostic médical.
+
+### 1950 - 1990 : L'ère de la physique nucléaire et des mines
+
+Durant cette période, le discours est dominé par la physique fondamentale du radon : \* **Daughter** : Référence aux "produits de filiation" (descendants) du radon, essentiels pour comprendre la chaîne de désintégration. \* **Miner** : Focus sur l'exposition professionnelle, notamment dans les mines d'uranium. \* **Rock / Decay** : Étude du radon comme gaz naturel issu de la roche.
+
+### 1991 - 2005 : L'émergence des risques domestiques et statistiques
+
+Le focus se déplace vers l'exposition environnementale globale : \* **County / Supply** : Début des cartographies géographiques de risque par zones administratives. \* **Leukaemia / Arsenic** : Recherche de corrélations entre le radon et d'autres pathologies ou polluants. \* **Uncertainty / Theory** : Formalisation des modèles de risque épidémiologique.
+
+### 2006 - 2015 : Modélisation et remédiation
+
+Cette phase marque une maturité dans la gestion du risque : \* **Model / Math / Err** : Prédominance de la rigueur statistique et de la modélisation mathématique du transport du gaz. \* **Remediation / Programme** : Mise en place de politiques publiques et de solutions techniques pour réduire le radon dans les bâtiments.
+
+### 2016 - 2026 : Vers une approche clinique et personnalisée
+
+La période la plus récente montre une forte médicalisation : \* **Patient / Blood / Mammogram** : Intégration du radon dans des études cliniques plus larges. \* **Sample / Image** : Utilisation de techniques d'imagerie et d'échantillonnages de précision. \* **Burden** : Évaluation du "fardeau" de la maladie à l'échelle mondiale.
+
+------------------------------------------------------------------------
+
+## 2. Analyse des "Absences" (Mots les moins spécifiques)
+
+Les termes les moins représentés par période (valeurs négatives) nous informent sur ce qui n'était pas encore une priorité ou ce qui est devenu obsolète.
+
+-   **En 1950-1990**, le mot **Residential** est très peu présent : le radon était alors perçu comme un problème de mineurs, pas encore comme un risque domestique majeur.
+-   **En 2016-2026**, les mots **Miner** et **Daughter** chutent drastiquement dans les spécificités. Cela ne signifie pas qu'ils disparaissent, mais qu'ils ne caractérisent plus l'innovation ou le focus actuel de la recherche, étant considérés comme des acquis de la science.
+-   Le mot **Water** est sous-représenté entre 2006 et 2015, suggérant que l'attention s'est portée davantage sur l'air intérieur (via `commune` ou `remediation`) que sur la contamination par l'eau.
+
+------------------------------------------------------------------------
+
+## Conclusion
+
+Cette analyse lexicale démontre que la recherche sur le radon a suivi une trajectoire classique : 1. **Caractérisation physique** (comment le gaz se comporte). 2. **Identification du risque** (quelles populations sont touchées). 3. **Gestion technique** (comment corriger les bâtiments). 4. **Impact médical global** (quelles conséquences biologiques précises).
+
+> **Note sur les données :** La période 2016-2026 incluant des données prospectives ou des projections, elle confirme la tendance actuelle vers une médecine de plus en plus spécialisée et une analyse statistique de masse (Big Data).

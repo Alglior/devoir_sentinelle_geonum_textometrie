@@ -54,9 +54,35 @@ L'analyse repose sur le calcul de la **spécificité**, qui permet de distinguer
 
 On active les "boîtes à outils" (les bibliothèques) qui permettent de manipuler les données, d'analyser le texte et de calculer les statistiques.
 
+```{r eval=FALSE}
+library(dplyr)
+library(tidytext)
+library(proustr)
+library(remotes)
+library(widyr)
+library(mixr)
+
+remotes::install_github("lvaudor/mixr")
+```
+
 ### **2. Importation et Sélection**
 
 On charge le fichier et on ne garde que les colonnes essentielles pour ne pas alourdir les calculs : le titre, le résumé, les concepts clés et l'année.
+
+```{r eval=FALSE}
+setwd("/home/arthur/Documents/nextcloud_sync/Documents/dataPoisson/environnement_et_cancers-main/data/ds/")
+
+data <- read.csv("discours_scientifique_plus.csv", sep = ";", header = TRUE)
+
+#garder seuelement display_name ; abstract ; top_concepts
+
+data_work <- subset(data, select = c(
+  display_name,
+  abstract,
+  top_concepts,
+  publication_year
+))
+```
 
 ### **3. Segmentation temporelle (Dates précises)**
 
@@ -70,13 +96,40 @@ On découpe le temps en quatre périodes historiques. C'est ici que l'on défini
 
 -   **2016 à 2026 :** Les enjeux actuels et futurs.
 
+```{r eval=FALSE}
+data_work <- data_work %>%
+  mutate(periode = case_when(
+    publication_year >= 1950 & publication_year <= 1990 ~ "1950-1990",
+    publication_year >= 1991 & publication_year <= 2005 ~ "1991-2005",
+    publication_year >= 2006 & publication_year <= 2015 ~ "2006-2015",
+    publication_year >= 2016 & publication_year <= 2026 ~ "2016-2026",
+    TRUE ~ "Autre"
+  ))
+```
+
 ### **4. Filtrage (Le Focus Radon)**
 
 On élimine tout ce qui ne nous intéresse pas. Le script ne garde que les articles qui contiennent le mot **"radon"** dans leur résumé ou leurs mots-clés.
 
+```{r eval=FALSE}
+#dans data_work des que l'on voit le mot radon ont garde la ligne sinon ont supprime
+data_radon_filter <- data_work %>%
+  filter(grepl("radon", abstract, ignore.case = TRUE) | grepl("radon", top_concepts, ignore.case = TRUE))
+```
+
 ### **5. Découpage et Nettoyage**
 
 On découpe les textes en mots isolés. On retire ensuite les mots inutiles (comme "le", "la", "de", "un") qui polluent l'analyse sans apporter de sens scientifique.
+
+```{r eval=FALSE}
+radon_abstract_token <- data_radon_filter %>% tidytext::unnest_tokens(output="mot_abstract",
+                                                                      input=abstract,
+                                                                      token="ngrams",
+                                                                      n=1) 
+
+radon_abstract_token_trie <- radon_abstract_token %>%
+  anti_join(tidytext::stop_words,by=c("mot_abstract"="word"))
+```
 
 ### **6. Lemmatisation (Normalisation)**
 
@@ -84,9 +137,42 @@ On découpe les textes en mots isolés. On retire ensuite les mots inutiles (com
 
 -   Exemple : "mesuré", "mesure" et "mesurage" sont tous regroupés sous la racine unique **"mesure"**. Cela permet d'avoir une statistique exacte sur l'idée de mesure, peu importe comment elle est écrite.
 
+```{r eval=FALSE}
+english_lexicon <- get_lexicon(language = "en")
+
+merge_radon_lexicon <- merge(radon_abstract_token_trie, english_lexicon,by.x = "mot_abstract",
+                   by.y = "word")
+
+radon_abstract_token_lemma <- subset(merge_radon_lexicon, select = c(
+  display_name,
+  top_concepts,
+  publication_year,
+  periode,
+  lemma
+))
+```
+
 ### **7. Calcul des Spécificités**
 
 Le script calcule mathématiquement quels mots sont les plus "typiques" d'une période par rapport aux autres.
+
+```{r eval=FALSE}
+freq_lemmes <- radon_abstract_token_lemma %>%
+  group_by(lemma,periode) %>% 
+  summarise(freq=n()) %>% 
+  arrange(desc(freq)) %>% 
+  na.omit()
+head(freq_lemmes)
+
+
+#correlation en fonction des année de publication
+#mots_corelation <- radon_abstract_token_lemma %>% 
+ # widyr::pairwise_count(lemma,feature=publication_year,sort=TRUE)
+
+radon_specificities <- mixr::tidy_specificities(radon_abstract_token_lemma,
+                                                lemma,
+                                                periode)
+```
 
 ## **II. Visualisation des Résultats**
 
@@ -96,9 +182,46 @@ Le script calcule mathématiquement quels mots sont les plus "typiques" d'une p�
 
 Ce bloc affiche les 10 mots les plus caractéristiques de chaque époque. Plus la barre est longue, plus le mot est propre à cette période.
 
+```{r eval=FALSE}
+#### ----Visualisation des résultats ---- ####
+library(ggplot2)
+
+#Visualisation des mots les plus spécifiques à chaque période
+radon_specificities %>%
+  group_by(periode) %>%
+  slice_max(n = 10, spec) %>%
+  ungroup() %>%
+  mutate(lemma = reorder_within(lemma, spec, periode)) %>%
+  ggplot(aes(lemma, spec, fill = periode)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ periode, scales = "free") +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(x = "Mots",
+       y = "Spécificité",
+       title = "Mots les plus représentés aux périodes dans les discours scientifiques sur le radon")
+```
+
 ### **2. Graphique des mots "absents" (Négatifs)**
 
 À l'inverse, ce graphique montre les mots qui sont anormalement absents ou en déclin à certaines dates.
+
+```{r eval=FALSE}
+#Visualisation des mots négatif à chaque période
+radon_specificities %>%
+  group_by(periode) %>%
+  slice_min(n = 10, spec) %>%
+  ungroup() %>%
+  mutate(lemma = reorder_within(lemma, spec, periode)) %>%
+  ggplot(aes(lemma, spec, fill = periode)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ periode, scales = "free") +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(x = "Mots",
+       y = "Spécificité",
+       title = "Mots les moins représentés aux périodes dans les discours scientifiques sur le radon")
+```
 
 ------------------------------------------------------------------------
 

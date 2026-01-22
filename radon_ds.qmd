@@ -104,33 +104,35 @@ Ce bloc affiche les 10 mots les plus caractéristiques de chaque époque. Plus l
 
 ## 1. Évolution des Thématiques (Mots les plus spécifiques)
 
-L'analyse des termes les plus représentés révèle un glissement net des préoccupations physiques et industrielles vers des enjeux de santé publique et de diagnostic médical.
+L'analyse des termes les plus représentés révèle une évolution des principales idées liés aux radons au fil des époques.
 
-### 1950 - 1990 : L'ère de la physique nucléaire et des mines
+### 1950 - 1990 : La découverte de la toxicité du radon
 
-Durant cette période, le discours est dominé par la physique fondamentale du radon : \* **Daughter** : Référence aux "produits de filiation" (descendants) du radon, essentiels pour comprendre la chaîne de désintégration. \* **Miner** : Focus sur l'exposition professionnelle, notamment dans les mines d'uranium. \* **Rock / Decay** : Étude du radon comme gaz naturel issu de la roche.
+Durant cette période, le discours est dominé par la physique fondamentale du radon. On peut voir la présence de mots représentant des éléments physique, qui étudie le radon de manière plus scientifique et son comportement.
+
+Par exemple, on voit les mots "daugther", "inert", "decay" qui montre l'état de la molécule de radon, ou encore "miner", "house" et "rock", qui montre les endroits susceptibles de posséder des émissions de radon.
+
+A cette époque, il n'y avait pas encore suffisamment de donnée, et on remarque l'absence de mot de statistique comme "regression","incidence", "method".
 
 ### 1991 - 2005 : L'émergence des risques domestiques et statistiques
 
-Le focus se déplace vers l'exposition environnementale globale : \* **County / Supply** : Début des cartographies géographiques de risque par zones administratives. \* **Leukaemia / Arsenic** : Recherche de corrélations entre le radon et d'autres pathologies ou polluants. \* **Uncertainty / Theory** : Formalisation des modèles de risque épidémiologique.
+En 1991-2005, on voit le début du recueil de la donnée de façon plus intensive ("datum","theory"), et plus d'analyse sur les polluants ou pathologies liés à cette exposition ("leukamia", "arsenic").
 
 ### 2006 - 2015 : Modélisation et remédiation
 
-Cette phase marque une maturité dans la gestion du risque : \* **Model / Math / Err** : Prédominance de la rigueur statistique et de la modélisation mathématique du transport du gaz. \* **Remediation / Programme** : Mise en place de politiques publiques et de solutions techniques pour réduire le radon dans les bâtiments.
+Cette période voit l'apparition d'un grand nombre de calcul statistique, qui montre l'apparition d'un plus grand nombre de données disponible ("math","cohort","model").
+
+Cette problématique devient plus importante vis à vis du public ("programme","remediation")
+
+La statistique prend alors un part important de la recherche sur le radon, ce qui réduit l'analyse plus orienté vers la physique et la biologie ("blood", "drink", "sample").
+
+L'absence du mot "daughter" montre une évolution du langage scientifique.
 
 ### 2016 - 2026 : Vers une approche clinique et personnalisée
 
-La période la plus récente montre une forte médicalisation : \* **Patient / Blood / Mammogram** : Intégration du radon dans des études cliniques plus larges. \* **Sample / Image** : Utilisation de techniques d'imagerie et d'échantillonnages de précision. \* **Burden** : Évaluation du "fardeau" de la maladie à l'échelle mondiale.
+La dernière décennie montre un focus sur l'analyse du radon à travers des analyses des prélevements ("sample", "blood", "patient"), grâce à de nouveau outils de précision ("image","mammogram").
 
-------------------------------------------------------------------------
-
-## 2. Analyse des "Absences" (Mots les moins spécifiques)
-
-Les termes les moins représentés par période (valeurs négatives) nous informent sur ce qui n'était pas encore une priorité ou ce qui est devenu obsolète.
-
--   **En 1950-1990**, le mot **Residential** est très peu présent : le radon était alors perçu comme un problème de mineurs, pas encore comme un risque domestique majeur.
--   **En 2016-2026**, les mots **Miner** et **Daughter** chutent drastiquement dans les spécificités. Cela ne signifie pas qu'ils disparaissent, mais qu'ils ne caractérisent plus l'innovation ou le focus actuel de la recherche, étant considérés comme des acquis de la science.
--   Le mot **Water** est sous-représenté entre 2006 et 2015, suggérant que l'attention s'est portée davantage sur l'air intérieur (via `commune` ou `remediation`) que sur la contamination par l'eau.
+Le radon est alors une problématique mondiale, et ne se concentre plus des sources du radon ("underground","miner", "arsenic").
 
 ------------------------------------------------------------------------
 

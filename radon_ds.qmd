@@ -1,7 +1,5 @@
 ---
 title: "Analyse Lexicométrique du Discours Scientifique sur le Radon (1950-2026)"
-author: "Analyse Automatisée"
-date: "`r Sys.Date()`"
 format:
   html:
     toc: true
